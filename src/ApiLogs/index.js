@@ -1,5 +1,4 @@
 import React, { useLayoutEffect, useState } from 'react'
-import { Get_Corona_virus_data } from '../ApiCalls/APicalls'
 import axios from 'axios'
 
 const Apiogs = () => {
@@ -16,34 +15,42 @@ const Apiogs = () => {
             console.log(err)
         })
     }
-    console.log("tablerow", apiData)
-    console.log("tablehead", tablehead)
 
+    const ThData = () => {
+        return tablehead?.map((data) => {
+            return <th key={data}>{data}</th>
+        })
+    }
+
+    const tdData =() =>{
+        return apiData.map((data)=>{
+          return(
+              <tr>
+                   {
+                      tablehead.map((v)=>{
+                          return <td>{data[v]}</td>
+                      })
+                   }
+              </tr>
+          )
+        })
+   }
+   
     useLayoutEffect(() => {
         ApiData()
     }, [])
     return (
         <div>
-            <div>
+            <div className='text-center p-3'>
                 <span className='h3 text-warning'> Data of Coronavirus</span>
             </div>
-            <div className='container col-10 border'>
-                <table class="table">
+            <div className='container col-10 border border-dark'>
+                <table className="table">
                     <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            {tablehead?.map((ele) => {
-                                return <th scope="col">{ele}</th>
-                            })}
-                        </tr>
+                        <tr>{ThData()}</tr>
                     </thead>
                     <tbody>
-                        {tablehead?.map((ele, ind) => {
-                            return <tr>
-                                <th scope="row">{ind + 1}</th>
-                                <td>{ele}</td>
-                            </tr>
-                        })}
+                        {tdData()}
                     </tbody>
                 </table>
             </div>
